@@ -2,7 +2,6 @@ from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from .routes.messaging import router as messaging_router
-from .auth.login import router as login_router
 from .auth.oauth.google_oauth import router as google_oauth_router
 from .routes.chat import router as chat_router
 from config.config import Config
@@ -13,7 +12,6 @@ from typing import Annotated
 app = FastAPI()
 
 app.include_router(messaging_router, prefix='/api/v1/messaging')
-app.include_router(login_router, prefix='/auth')
 app.include_router(google_oauth_router, prefix='/auth/oauth/google')
 app.include_router(chat_router, prefix='/api/v1/chat')
 
