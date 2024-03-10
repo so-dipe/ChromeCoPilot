@@ -2,4 +2,6 @@
 
 source .venv/bin/activate
 
-uvicorn backend.app.main:app --reload
+cd backend
+
+uvicorn app.main:app --reload
