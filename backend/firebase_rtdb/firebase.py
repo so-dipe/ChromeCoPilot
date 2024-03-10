@@ -1,37 +1,61 @@
 import requests
-from google.oauth2 import service_account
-from google.auth.transport.requests import AuthorizedSession
-from ..config.config import Config
-
-scopes = [
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/firebase.database",
-]
-
-credentials = service_account.Credentials.from_service_account_file(
-    Config.SERVICE_ACCOUNT_PATH, scopes=scopes)
-
-authed_session = AuthorizedSession(credentials)
+from datetime import datetime
 
 class FirebaseRTDB:
     def __init__(self, url):
         self.url = url
 
-    def create_chat(self, user_id, chat_id):
-        authed_session.put(f"{self.url}/{user_id}/{chat_id}.json", json=[])
+    def create_chat(self, user_id, chat_id, token):
+        url = f"{self.url}/{user_id}/{chat_id}.json?auth={token}"
+        try:
+            json = {
+                "title": "",
+                "messages": [],
+                "lastUpdated": datetime.now().isoformat() 
+            }
+            response = requests.put(url, json=json)
+            if response.status_code != 200:
+                print(response.json())
+            return response.json()
+        except Exception as e:
+            print(e)
 
-    def get_chat(self, user_id, chat_id):
-        response = authed_session.get(f"{self.url}/{user_id}/{chat_id}.json")
-        if response.json() is None:
-            self.create(user_id, chat_id)
+    def get_chat(self, user_id, chat_id, token):
+        url = f"{self.url}/{user_id}/{chat_id}.json?auth={token}"
+        try:
+            response = requests.get(url)
+            if response.status_code != 200:
+                return response.json()
+            if response.json() is None:
+                return {}
+            return response.json()
+        except Exception as e:
+            print(e)
             return []
-        return response.json()
 
-    def save_chat(self, user_id, chat_id, history):
-        authed_session.put(f"{self.url}/{user_id}/{chat_id}.json", json=history)
+    def save_chat(self, user_id, chat_id, history, token, title=None):
+        url = f"{self.url}/{user_id}/{chat_id}.json?auth={token}"
+        try:
+            json = {
+                "messages": history,
+                "lastUpdated": datetime.now().isoformat()
+            }
+            if title:
+                json["title"] = title
+            response = requests.patch(url, json=json)
+            if response.status_code != 200:
+                print(response.json())
+        except Exception as e:
+            print(e)
 
-    def delete_chat(self, user_id, chat_id):
-        authed_session.delete(f"{self.url}/{user_id}/{chat_id}.json")
+    def delete_chat(self, user_id, chat_id, token):
+        url = f"{self.url}/{user_id}/{chat_id}.json?auth={token}"
+        try:
+            response = requests.delete(url)
+            if response.status_code != 200:
+                print(response.json())
+        except Exception as e:
+            print(e)
 
     def append_history(self, history, prompt, response):
         history.extend(
@@ -49,3 +73,16 @@ class FirebaseRTDB:
             history.pop(idx)
             history.pop(idx)
             self.save_chat(user_id, chat_id, history)
+
+    def get_chats(self, user_id, token):
+        try:
+            response = requests.get(f"{self.url}/{user_id}.json?auth={token}")
+            if response.status_code != 200:
+                print(response.json())
+                return []
+            if response.json() is None:
+                return []
+            return response.json()
+        except Exception as e:
+            print(e)
+            return []
