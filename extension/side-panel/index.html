@@ -3,11 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+    <title>Chrome Co-Pilot</title>
 </head>
 <body>
-    get ready 
-    <div id="text"></div>
-    <script src="index.js"></script>
+    <script src="/config.js"></script>
+    <script src="js/utils/chat_utils.js"></script>
+    <script src="js/utils/login_utils.js"></script>
+    <script src="js/utils/page.js"></script>
+    <script src="js/utils/storage.js"></script>
+
+    <div id="content">
+        <h1>Chrome Copilot</h1>
+        <p>Please select a login method:</p>
+        <div id="login-options">
+            <button id="google-login">Continue with Google</button>
+        </div>
+        
+        <div id="email-login-form">
+            <form id="email-login-form">
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <input type="password" id="password" placeholder="Enter your password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/index.js"></script>
 </body>
 </html>
+
+

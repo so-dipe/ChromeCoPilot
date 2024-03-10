@@ -6,12 +6,20 @@
     "background": {
         "service_worker": "background/service-worker.js"
     },
+    "host_permissions": [
+        "http://localhost:8000/*"
+    ],
     "omnibox": {
         "keyword": "/"
     },
     "permissions": [
+        "activeTab",
         "contextMenus",
+        "cookies",
+        "identity",
+        "scripting",
         "sidePanel",
+        "storage",
         "tabs"
     ],
     "side_panel": {

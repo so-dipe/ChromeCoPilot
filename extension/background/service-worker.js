@@ -17,9 +17,3 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         }, 250);
     }
 });
-
-// chrome.omnibox.onInputEntered.addListener(async (text, disposition) => {
-//     const window = await chrome.windows.getCurrent();
-//     // chrome.sidePanel.open({windowId: window.id});
-//     chrome.runtime.sendMessage({type: 'start-session', text});
-// });
