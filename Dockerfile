@@ -11,7 +11,7 @@ RUN ls -la
 
 COPY backend .
 
-COPY run.sh /backend/
+COPY run.sh .
 
 # CMD ["uvicorn", "app.main:app"]
 CMD ["./run.sh"]
