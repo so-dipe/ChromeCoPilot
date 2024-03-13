@@ -11,5 +11,7 @@ RUN ls -la
 
 COPY backend .
 
-CMD ["uvicorn", "app.main:app"]
-# CMD ["uvicorn", "app.main:app", "--reload"]
+COPY run.sh /backend/
+
+# CMD ["uvicorn", "app.main:app"]
+CMD ["./run.sh"]
