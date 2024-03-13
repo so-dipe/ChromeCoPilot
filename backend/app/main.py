@@ -48,8 +48,10 @@ async def refresh_token(refresh_token: Annotated[str, Form()]):
     try:
         response = requests.post(url, data=payload, headers=headers)
         if response.status_code == 200:
+
             return response.json()
         else:
             raise HTTPException(status_code=response.status_code, detail="Failed to refresh token")
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
+
