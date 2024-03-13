@@ -1,25 +1,3 @@
-// function loadScriptsFromHTML(html) {
-//     
-//     const scripts = Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll('script'));
-//     const existingScripts = document.querySelectorAll('script');
-
-//     scripts.forEach(script => {
-//         existingScripts.forEach(existingScript => {
-//             if (existingScript.src === script.src) {
-//                 existingScript.remove();
-//             }
-//         });
-//     });
-
-//     scripts.forEach(script => {
-//         if (!document.querySelector(`script[src="${script.src}"]`)) {
-//             const newScript = document.createElement('script');
-//             newScript.src = script.src;
-//             document.head.appendChild(newScript);
-//         }
-//     });
-// }
-
 function loadScriptsFromHTML(html) {
     const scripts = Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll('script'));
     const existingScripts = document.querySelectorAll('script');

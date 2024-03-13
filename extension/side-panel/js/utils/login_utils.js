@@ -18,6 +18,7 @@ async function refreshIdToken() {
                 chrome.storage.local.set({ user: result.user }, () => {
                     console.log('idToken refreshed');
                 });
+                return true
             } else {
                 console.error(`Request failed with status ${response.status}`);
             }
@@ -29,7 +30,6 @@ async function logout() {
     chrome.storage.local.clear(() => {
         console.log('User logged out');
         openIndex();
-        console.log(getUserDataFromStorage());
         location.reload();
     });
 }
