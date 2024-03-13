@@ -3,8 +3,11 @@ from config.config import Config
 import firebase_admin 
 from firebase_admin import auth
 from firebase_admin import credentials
+import os
 
-cred = credentials.Certificate(Config.SERVICE_ACCOUNT_PATH)
+service_account_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../..' ,Config.SERVICE_ACCOUNT_PATH)
+
+cred = credentials.Certificate(os.path.join(os.getcwd(), Config.SERVICE_ACCOUNT_PATH))
 firebase_admin.initialize_app(cred)
 
 async def verify_token(authorization: str = Header(None)):
