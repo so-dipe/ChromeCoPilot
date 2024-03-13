@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# source .venv/bin/activate
+source .venv/bin/activate
 
-# cd backend
+cd backend
 
-ls -la
-
-# uvicorn app.main:app --reload
-uvicorn app.main:app
+uvicorn app.main:app --reload
