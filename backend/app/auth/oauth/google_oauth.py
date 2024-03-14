@@ -30,7 +30,7 @@ def authorization_code_for_token(code):
 
 def signin_with_token(token):
     payload = {
-        "requestUri": "http://localhost:8000/",
+        "requestUri": Config.REDIRECT_URI,
         "postBody": f"id_token={token}&providerId=google.com",
         "returnSecureToken": True,
         "returnIdpCredential": True
@@ -81,7 +81,7 @@ async def verify(token: str = Depends(get_token)):
     url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key={Config.FIREBASE_API_KEY}"
 
     payload = {
-        "requestUri": "http://localhost:8000/",
+        "requestUri": Config.REDIRECT_URI,
         "postBody": f"id_token={token}&providerId=google.com",
         "returnSecureToken": True,
         "returnIdpCredential": True
