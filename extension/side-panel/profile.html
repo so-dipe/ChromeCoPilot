@@ -1,26 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-
+    <!-- Include Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .cancel-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
     <script src="js/utils/chat_utils.js"></script>
     <script src="js/utils/login_utils.js"></script>
     <script src="js/utils/page.js"></script>
     <script src="js/utils/storage.js"></script>
+    <div
+      id="profile-info"
+      class="max-w-md mx-auto mt-8 bg-white p-8 rounded-lg shadow-md relative"
+    >
+      <div class="flex flex-col justify-center items-center mb-4">
+        <img
+          id="profile-uri"
+          src=""
+          alt="Profile Image"
+          class="w-50 h-50 p-5 rounded-full"
+        />
+        <p id="display-name" class="text-xl font-bold text-gray-800"></p>
+      </div>
+      <button
+        title="Close"
+        id="closeProfile"
+        class="cancel-btn text-red-500 hover:text-red-900"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+      <div class="flex justify-center mt-2">
+        <button
+          id="new-chat"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2"
+        >
+          New Chat
+        </button>
+        <button
+          id="logout"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
 
-    <button id="new-chat">New Chat</button>
-    <div id="profile-info">
-        <!-- Placeholder elements for user information and chats -->
-        <img id="profile-uri" src="" alt="Profile Image">
-        <p id="display-name">Display Name:</p>
-        <div id="chats-container"></div>
-    </div>  
-    <button id="logout">Logout</button>
-
-    <script src="js/profile.js"></script>  
-</body>
+    <div
+      id="chats-container"
+      class="mt-6 ax-w-md mx-auto mt-8 bg-white p-8 rounded-lg shadow-md font-serif leading-loose"
+    ></div>
+    <script src="js/profile.js"></script>
+  </body>
 </html>

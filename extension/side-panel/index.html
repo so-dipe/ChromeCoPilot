@@ -1,36 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="css/index.css" /> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+
     <title>Chrome Co-Pilot</title>
-</head>
-<body>
+  </head>
+  <body>
     <script src="/config.js"></script>
     <script src="js/utils/chat_utils.js"></script>
     <script src="js/utils/login_utils.js"></script>
     <script src="js/utils/page.js"></script>
     <script src="js/utils/storage.js"></script>
 
-    <div id="content">
-        <h1>Chrome Copilot</h1>
-        <p>Please select a login method:</p>
-        <div id="login-options">
-            <button id="google-login">Continue with Google</button>
-        </div>
-        
-        <div id="email-login-form">
-            <form id="email-login-form">
-                <input type="email" id="email" placeholder="Enter your email" required>
-                <input type="password" id="password" placeholder="Enter your password" required>
-                <button type="submit">Login</button>
+    <div id="content" class="container mx-auto px-4 py-8">
+      <h1 class="text-2xl font-bold mb-2 text-center">Chrome Copilot</h1>
+      <div class="flex justify-center">
+        <img
+          src="https://img.freepik.com/free-vector/captain-co-pilot-sitting-airplane-cabin-with-flight-deck-dashboard-cartoon-illustration_1441-3973.jpg?w=360"
+          alt=""
+        />
+      </div>
+
+      <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
+        <div class="px-6 py-4">
+          <p class="text-gray-700 text-center mb-6">
+            Please select a login method
+          </p>
+
+          <div id="email-login-form">
+            <form id="email-login-form" class="mb-4">
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+                class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500 mb-3"
+              />
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+                class="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500 mb-3"
+              />
+              <button
+                type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Login
+              </button>
             </form>
+          </div>
+          <h3 class="text-center mb-3">OR</h3>
+          <div id="login-options" class="flex justify-center mb-4">
+            <button
+              id="google-login"
+              class="bg-blue-600 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              <i class="fab fa-google mr-2"></i> Continue with Google
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="js/index.js"></script>
-</body>
+  </body>
 </html>
-
-

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 
 .lexend-normal {
   font-family: "Lexend", sans-serif;
@@ -8,237 +8,233 @@
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
 
 #content {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #c8f2ff;
-    padding: 10px 0px;
-    margin: 2px 0; 
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow-x: hidden;
-    border-bottom: 0px solid #000;
-    font-family: "Lexend", sans-serif;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #c8f2ff;
+  padding: 10px 0px;
+  margin: 2px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
+  border-bottom: 0px solid #000;
+  font-family: "Lexend", sans-serif;
 }
 
-
 #messages-container {
-    flex: 1; 
-    overflow-y: auto;
+  flex: 1;
+  overflow-y: auto;
 }
 
 #messages-container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 #input-form {
-    display: flex;
+  display: flex;
 }
 
 #input-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 4px 4px;
-    margin: 0 auto;
-    width: 95%;
-  }
-  
-  #input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 8px;
-    min-height: 24px;
-    max-height: 200px;
-    font-size: 16px;
-    line-height: 1.5;
-    overflow: auto;
-    background-color: transparent;
-    background-clip: text;
-  }
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 4px 4px;
+  margin: 0 auto;
+  width: 95%;
+}
 
-  #input:empty::before {
-    content: "Chat with Chrome CoPilot...";
-    color: #999;
-  }
+#input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px;
+  min-height: 24px;
+  max-height: 200px;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow: auto;
+  background-color: transparent;
+  background-clip: text;
+}
 
-  #input:hover {
-    cursor: text;
-  }
-  
-  #submit {
-    display: none;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 4px 8px;
-    font-size: 20px;
-    color: #555;
-  }
+#input:empty::before {
+  content: "Chat with Chrome CoPilot...";
+  color: #999;
+}
 
+#input:hover {
+  cursor: text;
+}
+
+#submit {
+  display: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 20px;
+  color: #555;
+}
 
 .user-message {
-    background-color: #72dafa;
-    color: #000;
-    padding: 0px 10px;
+  background-color: #72dafa;
+  color: #000;
+  padding: 0px 10px;
 }
 
 .copilot-message {
-    background-color: #c8f2ff;
-    color: #000;
-    padding: 0px 10px;
+  background-color: #c8f2ff;
+  color: #000;
+  padding: 0px 10px;
 }
 
 .message {
-    overflow-wrap: break-word;
-    overflow-x: hidden;
-    border-radius: 0;
-    margin-bottom: 0px;
-    padding-bottom: 8px;
-    padding-top: 8px;
-
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+  border-radius: 0;
+  margin-bottom: 0px;
+  padding-bottom: 8px;
+  padding-top: 8px;
 }
 
 .author-info {
-    font-weight: bold; /* Make the text bold */
-    font-size: 14px; /* Adjust the font size */
-    color: #000000; /* Change the text color */
-    margin-bottom: 5px; /* Add margin at the bottom to separate it from the message */
+  font-weight: bold; /* Make the text bold */
+  font-size: 14px; /* Adjust the font size */
+  color: #000000; /* Change the text color */
+  margin-bottom: 5px; /* Add margin at the bottom to separate it from the message */
 }
 
 .marked-content p {
-    margin: 0; /* Remove margin */
-    padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  padding: 0; /* Remove padding */
 }
 
 .marked-content pre code {
-    display: block;
-    overflow-x: auto;
-    /* background-color: #000;
+  display: block;
+  overflow-x: auto;
+  /* background-color: #000;
     color: #fcfcfc; */
 }
 
 .marked-content pre code::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
-
 #top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px; /* Increase padding for better spacing */
-    margin: 2px 0; /* Adjust margin as needed */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px; /* Increase padding for better spacing */
+  margin: 2px 0; /* Adjust margin as needed */
 }
 
 #profile {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    background-color: #007bff;
-    border: none;
-    background-size: cover;
-    background-position: center;
-    margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  margin-right: 10px;
+  transition: border-radius 0.5s ease;
+}
+#profile:hover {
+  border-radius: 5%; /* Reduce border radius on hover */
 }
 
 #nav-icons {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    height: 100%; /* Ensure the height matches the tallest item */
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  height: 100%; /* Ensure the height matches the tallest item */
 }
 
 #new-chat {
-    width: 40px; /* Adjust width to match profile picture */
-    height: 40px; /* Adjust height to match profile picture */
-    background-color: #ccc;
-    margin-right: 10px;
-    border-radius: 50%;
-    font-family: "Material Symbols Outlined";
-    font-size: 24px;
-    line-height: 40px; /* Adjust line-height to vertically center the icon */
-    text-align: center;
-    cursor: pointer;
-    position: relative; /* Add position relative */
-    overflow: hidden; /* Hide overflow for expanding effect */
-    transition: border-radius 0.5s ease; /* Add transition for width and border-radius */
+  width: 40px; /* Adjust width to match profile picture */
+  height: 40px; /* Adjust height to match profile picture */
+  background-color: #ccc;
+  margin-right: 10px;
+  border-radius: 50%;
+  font-family: "Material Symbols Outlined";
+  font-size: 24px;
+  line-height: 40px; /* Adjust line-height to vertically center the icon */
+  text-align: center;
+  cursor: pointer;
+  position: relative; /* Add position relative */
+  overflow: hidden; /* Hide overflow for expanding effect */
+  transition: border-radius 0.5s ease; /* Add transition for width and border-radius */
 }
 
 #new-chat:hover {
-    border-radius: 5%; /* Reduce border radius on hover */
+  border-radius: 5%; /* Reduce border radius on hover */
 }
 
 .menu-icon {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    margin-top: 5px;
-    margin-bottom: 0px; /* Add margin to align with other items */
-    z-index: 2000; /* Increase z-index */
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-bottom: 0px; /* Add margin to align with other items */
+  z-index: 2000; /* Increase z-index */
 }
 
 .bar {
-    width: 100%;
-    height: 4px;
-    background-color: #000;
-    margin-bottom: 5px;
-    transition: transform 0.7s ease;
+  width: 100%;
+  height: 4px;
+  background-color: #000;
+  margin-bottom: 5px;
+  transition: transform 0.7s ease;
 }
 
 .menu-open .bar:first-child {
-    transform: rotate(45deg) translate(0px, 6px);
+  transform: rotate(45deg) translate(0px, 6px);
 }
 
 .menu-open .bar:nth-child(2) {
-    transform: rotate(-45deg) translate(0px, -6px);
+  transform: rotate(-45deg) translate(0px, -6px);
 }
 
 .menu-open .bar:last-child {
-    transform: translateX(-100px);
-    opacity: 0;
+  transform: translateX(-100px);
+  opacity: 0;
 }
 
 .nav-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%; /* Start with a width of 0 */
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
-    z-index: 1000; /* Ensure it's below other elements */
-    transition: transform 1s ease; /* Smooth transition for width change */
-    overflow: hidden; /* Hide overflow content */
-    opacity: 1;
-    transform : translateX(-10000px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Start with a width of 0 */
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
+  z-index: 1000; /* Ensure it's below other elements */
+  transition: transform 1s ease; /* Smooth transition for width change */
+  overflow: hidden; /* Hide overflow content */
+  opacity: 1;
+  transform: translateX(-10000px);
 }
 
 .nav-overlay.open {
-    transform: translateX(0px);
-    opacity: 1;
+  transform: translateX(0px);
+  opacity: 1;
 }
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 0,
-  'GRAD' 0,
-  'opsz' NaN
+  font-variation-settings: "FILL" 0, "wght" 0, "GRAD" 0, "opsz" NaN;
 }
 
 .cursor {
@@ -260,5 +256,3 @@ body {
     opacity: 1;
   }
 }
-
-
