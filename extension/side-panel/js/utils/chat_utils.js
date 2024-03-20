@@ -3,7 +3,7 @@ async function renderChat(chat) {
     messages.forEach(message => {
         appendMessage(message.content, message.role);
     });
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    // messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
 async function fetchChatData(token, chatId) {
@@ -32,6 +32,15 @@ async function fetchChatData(token, chatId) {
 
     } catch (error) {
         console.error("Error fetching chat:", error);
+    }
+}
+
+async function fetchAndRenderConversation(chatId) {
+    try {
+        conversation = await getConversationById(chatId);
+        renderChat(conversation);
+    } catch (error) {
+        throw new Error("Error fetching conversation:", error);
     }
 }
 
@@ -64,8 +73,10 @@ async function retrieveChats(userId) {
 
 async function generateChatId() {
     var userId = await getUserIdFromStorage();
+    console.log(userId)
     var timestamp = new Date().getTime();
     var uniqueId = userId + '-' + timestamp;
+    console.log(uniqueId)
     await setCurrentChatIdInStorage(uniqueId);
     return uniqueId;
 }
@@ -83,9 +94,14 @@ async function sendText(message, stream = true) {
     },
     body: JSON.stringify({ prompt: message, chat_id: chatId })
   })
-    .then(response => {
+    .then(async (response) => {
       if (stream) {
-        getStreamingResponse(response);
+        responseText = await getStreamingResponse(response);
+        console.log(responseText)
+        if (responseText) {
+          appendMessageToConversation(chatId, message, 'user');
+          appendMessageToConversation(chatId, responseText, 'model');
+        } 
       } else {
         getResponse(response);
       }
@@ -93,9 +109,10 @@ async function sendText(message, stream = true) {
     .catch(error => {
       console.error(error);
     });
+
 }
 
-function getStreamingResponse(response) {
+async function getStreamingResponse(response) {
     reader = response.body.getReader();
     decoder = new TextDecoder();
     messageContainer = document.createElement('div');
@@ -118,6 +135,7 @@ function getStreamingResponse(response) {
     tempElement.appendChild(cursor);
 
     let autoScroll = true;
+    let concatenatedText = '';
   
     processText = async ({ value, done }) => {
       if (done) {
@@ -126,9 +144,10 @@ function getStreamingResponse(response) {
         if (autoScroll) {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        return;
+        return concatenatedText;
       }
       str = decoder.decode(value);
+      concatenatedText += str;
       i = 0;
   
       function typeWriter() {
@@ -155,7 +174,9 @@ function getStreamingResponse(response) {
       typeWriter();
     };
   
-    reader.read().then(processText);
+    await reader.read().then(processText);
+    console.log(concatenatedText)
+    return concatenatedText;
   }
 
 function isAtBottom(container) {
@@ -205,26 +226,26 @@ function handleKeyPress(event) {
 }
 
 function appendMessage(message, sender) {
-  messageContainer = document.createElement('div');
-  authorInfo = document.createElement('div');
-  messageContainer.classList.add('message');
+    messageContainer = document.createElement('div');
+    authorInfo = document.createElement('div');
+    messageContainer.classList.add('message');
 
-  if (sender === 'user') {
-    messageContainer.classList.add('user-message');
-    authorInfo.textContent = 'You';
-  } else {
-    authorInfo.textContent = 'Chrome Co-Pilot';
-    messageContainer.classList.add('copilot-message');
-  }
+    if (sender === 'user') {
+      messageContainer.classList.add('user-message');
+      authorInfo.textContent = 'You';
+    } else {
+      authorInfo.textContent = 'Chrome Co-Pilot';
+      messageContainer.classList.add('copilot-message');
+    }
 
-  authorInfo.classList.add('author-info');
+    authorInfo.classList.add('author-info');
 
-  tempElement = document.createElement('div');
-  tempElement.innerHTML = marked(message);
-  tempElement.classList.add('marked-content');
+    tempElement = document.createElement('div');
+    tempElement.innerHTML = marked(message);
+    tempElement.classList.add('marked-content');
 
-  messageContainer.appendChild(authorInfo);
-  messageContainer.appendChild(tempElement);
-  messagesContainer.appendChild(messageContainer);
-  hljs.highlightAll();
+    messageContainer.appendChild(authorInfo);
+    messageContainer.appendChild(tempElement);
+    messagesContainer.appendChild(messageContainer);
+    hljs.highlightAll();
 }

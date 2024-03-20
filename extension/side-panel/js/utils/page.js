@@ -53,11 +53,33 @@ async function openChat(chatId = null) {
             fetchChatData(token, idToFetch);
             setCurrentChatIdInStorage(idToFetch);
         } else {
+            generateChatId();
+        }
+    } catch (error) {
+        console.error("Error fetching Chat:", error);
+    }
+}
+
+async function openConversation(chatId = null) {
+    try {
+
+        const htmlResponse = await fetch(chrome.runtime.getURL("/side-panel/chat.html"));
+        const html = await htmlResponse.text();
+            
+        document.getElementById('content').innerHTML = html;
+        loadScriptsFromHTML(html);
+
+        let id = chatId || await getCurrentChatIdFromStorage();
+
+        if (id) {
+            setCurrentChatIdInStorage(id);
+            fetchAndRenderConversation(id);
+        } else {
             chatId = await generateChatId();
             setCurrentChatIdInStorage(chatId);
         }
     } catch (error) {
-        console.error("Error fetching Chat:", error);
+        throw new Error("Error fetching Conversation:", error);
     }
 }
 
@@ -72,21 +94,32 @@ async function displayUserInfo(userData) {
         displayNameElement.textContent = `Display Name: ${userData.displayName}`;
 
 
-        const chats = await retrieveChats(userData.localId); 
+        // const chats = await retrieveChats(userData.localId);
+        const conversationList = await getConversationsList(); 
         chatsContainer.innerHTML = ''; 
-        console.log(chats);
-
-        Object.keys(chats).forEach(chatId => {
-            const chatData = chats[chatId]; 
+        
+        conversationList.forEach(conversation => {
             const chatLink = document.createElement('a');
-            chatLink.textContent = `${chatData.title} last updated at ${chatData.lastUpdated}`;
-            console.log(chatId);
+            chatLink.textContent = `${conversation.title} last updated at ${conversation.lastUpdated}`;
             chatLink.href = "#";
             chatLink.addEventListener('click', () => {
-                openChat(chatId);
+                openConversation(conversation.id);
             });
             chatsContainer.appendChild(chatLink);
             chatsContainer.appendChild(document.createElement('br'));
         });
+
+        // Object.keys(chats).forEach(chatId => {
+        //     const chatData = chats[chatId]; 
+        //     const chatLink = document.createElement('a');
+        //     chatLink.textContent = `${chatData.title} last updated at ${chatData.lastUpdated}`;
+        //     console.log(chatId);
+        //     chatLink.href = "#";
+        //     chatLink.addEventListener('click', () => {
+        //         openChat(chatId);
+        //     });
+        //     chatsContainer.appendChild(chatLink);
+        //     chatsContainer.appendChild(document.createElement('br'));
+        // });
     }
 }

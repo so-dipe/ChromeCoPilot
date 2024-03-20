@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "ChromeCoPilot",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "action": { },
     "background": {
         "service_worker": "background/service-worker.js"
@@ -24,6 +24,6 @@
         "tabs"
     ],
     "side_panel": {
-        "default_path": "side-panel/index.html"
+        "default_path": "side_panel/index.html"
     }
 }

@@ -51,6 +51,11 @@
     <script src="/scripts/highlightjs/languages/yaml.min.js"></script>
 </head>
 <body>
+    <script src="/config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/utils.js"></script>
+    <script src="js/utils/chat_utilities.js"></script>
+
     <div id="content">
         <button id="logout" style="display: none;">Logout</button>
         <div id="top-bar">
@@ -70,6 +75,7 @@
             <!-- <input type="text" id="input" placeholder="Ask a Question"> -->
             <div id="input-container">
                 <div id="input" contenteditable="true"></div>
+                <!-- <textarea id="input"></textarea> -->
                 <button type="submit" id="submit" class="material-symbols-outlined">&#xe163;</button>
             </div>
         </form>

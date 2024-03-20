@@ -1,4 +1,3 @@
-
 const googleLoginButton = document.getElementById('google-login');
 
 async function isLoggedIn() {
@@ -8,21 +7,19 @@ async function isLoggedIn() {
 
 googleLoginButton.addEventListener('click', async () => {
     await handleGoogleLogin();
+    
 });
 
 async function handleSidePanelContent() {
     try {
         if (await isLoggedIn()) {
-            const chatId = await getCurrentChatIdFromStorage();
+            const chatId = await getChatId();
+            console.log(chatId)
             if (!chatId) {
-                openProfile();
+                navigateToPage('profile.html');
             } else {
-                // openChat(chatId);
-                openConversation(chatId);
+                navigateToPage('chat.html');
             }
-        } else {
-            // If not logged in, show the login screen
-            // You can implement this part based on your UI design
         }
     } catch (error) {
         console.error('Error handling side panel content:', error);
@@ -30,3 +27,4 @@ async function handleSidePanelContent() {
 }
 
 window.addEventListener('load', handleSidePanelContent);
+

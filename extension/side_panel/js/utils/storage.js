@@ -1,4 +1,4 @@
-function getUserIdFromStorage() {
+function getUserId() {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['user'], (result) => {
             if (result && result.user && result.user.localId) {
@@ -10,7 +10,7 @@ function getUserIdFromStorage() {
     });
 }
 
-function getUserDataFromStorage() {
+function getUserData() {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['user'], (result) => {
             if (result && result.user) {
@@ -22,7 +22,7 @@ function getUserDataFromStorage() {
     });
 }
 
-function getCurrentChatIdFromStorage() {
+function getChatId() {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['chatId'], (result) => {
             if (result && result.chatId) {
@@ -34,7 +34,15 @@ function getCurrentChatIdFromStorage() {
     });
 }
 
-function getTokenFromStorage() {
+function setChatId(chatId) {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.set({ chatId: chatId }, () => {
+            resolve();
+        });
+    });
+}
+
+function getToken() {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['user'], (result) => {
             if (result && result.user && result.user.idToken) {
@@ -58,40 +66,42 @@ function getLoggedInStatus() {
     });
 }
 
-function setCurrentChatIdInStorage(chatId) {
-    console.log("Setting chatId in storage:", chatId)
+//Database
+var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+var IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
+var db;
+
+function openDatabase() {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.set({ chatId: chatId }, () => {
-            console.log("id in storage", getCurrentChatIdFromStorage());
+        const request = indexedDB.open("ConversationsDB", 1);
+
+        request.onupgradeneeded = function(event) {
+            db = event.target.result;
+            var objectStore = db.createObjectStore("conversations", { keyPath: "id" });
+            objectStore.createIndex("id", "id", { unique: true });
+            objectStore.createIndex("title", "title", { unique: false });
+            objectStore.createIndex("lastUpdated", "lastUpdated", { unique: false });
+            objectStore.createIndex("messages", "messages", { unique: false });
+        };
+
+        request.onerror = function(event) {
+            console.error("Database error: " + event.target.errorCode);
+            reject(new Error("Database error: " + event.target.errorCode));
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            console.log("Database opened successfully");
             resolve();
-        });
+        };
     });
 }
 
-//CONVERSATIONS STORE
-indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
-request = indexedDB.open("ConversationsDB", 1);
-
-request.onupgradeneeded = function(event) {
-    db = event.target.result;
-    var objectStore = db.createObjectStore("conversations", { keyPath: "id" });
-    objectStore.createIndex("id", "id", { unique: true });
-    objectStore.createIndex("title", "title", { unique: false });
-    objectStore.createIndex("lastUpdated", "lastUpdated", { unique: false });
-    objectStore.createIndex("messages", "messages", { unique: false });
-};
-
-request.onerror = function(event) {
-    console.error("Database error: " + event.target.errorCode);
-};
-
-request.onsuccess = function(event) {
-    db = event.target.result;
-    console.log("Database opened successfully");
-};
-
-function getConversationsList() {
+async function getConversationsList() {
+    if (!db) {
+        await openDatabase();
+    }
+    console.log("DB:", db);
     return new Promise((resolve, reject) => {
         var transaction = db.transaction(["conversations"]);
         var objectStore = transaction.objectStore("conversations");
@@ -118,19 +128,26 @@ function getConversationsList() {
     });
 }
 
-function getConversationById(id) {
+async function getConversationById(id) {
+    if (!db) {
+        await openDatabase();
+    }
     return new Promise((resolve, reject) => {
         var transaction = db.transaction(["conversations"]);
         var objectStore = transaction.objectStore("conversations");
         var request = objectStore.get(id);
         request.onsuccess = function(event) {
+            console.log("conversation retrieved.")
             resolve(request.result);
         };
     });
 
 }
 
-function appendMessageToConversation(id, messageContent, role, title=null) {
+async function appendMessageToConversation(id, messageContent, role, title=null) {
+    if (!db) {
+        await openDatabase();
+    }
     return new Promise((resolve, reject) => {
         var transaction = db.transaction(["conversations"], "readwrite");
         var objectStore = transaction.objectStore("conversations");
@@ -166,7 +183,10 @@ function appendMessageToConversation(id, messageContent, role, title=null) {
     });
 }
 
-function createConversation(chatId) {
+async function createConversation(chatId) {
+    if (!db) {
+        await openDatabase();
+    }
     new Promise((resolve, reject) => {
         var transaction = db.transaction(["conversations"], "readwrite");
         var objectStore = transaction.objectStore("conversations");
@@ -177,12 +197,16 @@ function createConversation(chatId) {
             messages: []
         });
         request.onsuccess = function(event) {
-            resolve(request.result);
+            console.log("conversation created.")
+            resolve(getConversationById(request.result));
         };
     });
 }
 
-function deleteConversation(id) {
+async function deleteConversation(id) {
+    if (!db) {
+        await openDatabase();
+    }
     new Promise((resolve, reject) => {
         var transaction = db.transaction(["conversations"], "readwrite");
         var objectStore = transaction.objectStore("conversations");
