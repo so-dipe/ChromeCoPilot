@@ -4,9 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from .routes.messaging import router as messaging_router
 from .auth.oauth.google_oauth import router as google_oauth_router
 from .routes.chat import router as chat_router
+# from .routes.embedding import router as embedding_router
 from config.config import Config
 import requests
-from pydantic import BaseModel
+# from pydantic import BaseModel
 from typing import Annotated
 
 app = FastAPI()
@@ -14,6 +15,7 @@ app = FastAPI()
 app.include_router(messaging_router, prefix='/api/v1/messaging')
 app.include_router(google_oauth_router, prefix='/auth/oauth/google')
 app.include_router(chat_router, prefix='/api/v1/chat')
+# app.include_router(embedding_router, prefix='/api/v1/embedding')
 
 app.add_middleware(
     CORSMiddleware,
@@ -53,5 +55,5 @@ async def refresh_token(refresh_token: Annotated[str, Form()]):
         else:
             raise HTTPException(status_code=response.status_code, detail="Failed to refresh token")
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Internal server error")
+        raise HTTPException(status_code=500, detail=f"Internal server error, {e}")
 

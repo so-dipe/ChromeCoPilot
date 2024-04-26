@@ -52,6 +52,7 @@ def signin_with_token(token):
 
 @router.get("/signin")
 async def signin():
+    print(Config.REDIRECT_URI)
     params = {
         "client_id": Config.WEB_CLIENT_ID,
         "redirect_uri": Config.REDIRECT_URI,

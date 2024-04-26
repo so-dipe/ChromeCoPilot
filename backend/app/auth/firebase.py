@@ -26,10 +26,9 @@ async def get_uid_and_token(authorization: str = Header(None)):
     except auth.ExpiredIdTokenError:
         raise HTTPException(status_code=419, detail="Token expired, please refresh")
     except auth.InvalidIdTokenError as e:
-        print("invalid", e)
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=401, detail=f"Invalid token, {e}")
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Internal server error")
+        raise HTTPException(status_code=500, detail=f"Internal server error, {e}")
 
 async def get_token(authorization: str = Header(None)):
     if not authorization or not authorization.startswith("Bearer "):

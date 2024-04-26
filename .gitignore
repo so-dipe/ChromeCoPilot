@@ -130,3 +130,5 @@ dist
 .pnp.*
 service_account.json
 backend/service_account.json
+secrets/service-account.json
+secrets
