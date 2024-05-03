@@ -50,7 +50,7 @@ async def refresh_token(refresh_token: Annotated[str, Form()]):
     try:
         response = requests.post(url, data=payload, headers=headers)
         if response.status_code == 200:
-
+            print(response.json().get('id_token'))
             return response.json()
         else:
             raise HTTPException(status_code=response.status_code, detail="Failed to refresh token")

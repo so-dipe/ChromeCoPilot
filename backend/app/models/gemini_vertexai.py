@@ -75,8 +75,26 @@ class GeminiModelClient:
         )
         return history
 
-    def save_history(self, user_id, chat_id, history):
-        self.redis_client.hset(user_id, chat_id, history)
+    def generate_chat_title(self, prompt, response, history=[]):
+        try:        
+            system = """
+            Your job is to generate a title for the following chat, make sure it
+            is short and concise.
+            """
+            print(prompt, response)
+            contents = [
+                Content(role="user", parts=[Part.from_text(prompt)]),
+                Content(role="model", parts=[Part.from_text(response)]),
+                Content(role="user", parts=[Part.from_text(system)])
+            ]
+            response = self.model.generate_content(contents, stream=False)
+            return response.text
+        except Exception as e:
+            print("Error generating chat title:", e)
+            return None
 
-    def get_history(self, user_id, chat_id):
-        return self.redis_client.hget(user_id, chat_id)
+    # def save_history(self, user_id, chat_id, history):
+    #     self.redis_client.hset(user_id, chat_id, history)
+
+    # def get_history(self, user_id, chat_id):
+    #     return self.redis_client.hget(user_id, chat_id)

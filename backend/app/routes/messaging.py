@@ -13,6 +13,7 @@ class ChatModel(BaseModel):
 router = APIRouter()
 
 gemini = GeminiModelClient()
+# print(gemini.generate_chat_title("what year was nigeria independent", "H"))
 
 async def get_response_stream(response):
     chunks = ""
@@ -23,10 +24,20 @@ async def get_response_stream(response):
 @router.post("/stream_response")
 async def stream_resp(chat: ChatModel, _: str = Depends(get_uid_and_token)):
     try:
+        print(chat.history)
         response = gemini.generate_response(chat.message, history=chat.history, stream=True)
         return StreamingResponse(get_response_stream(response))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error, {e}")
+
+@router.get("/get_chat_title")
+async def get_chat_title(prompt, response, _: str = Depends(get_uid_and_token)):
+    try:
+        response = gemini.generate_chat_title(prompt, response)
+        return {"text": response}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error, {e}")
+
 
 # @router.post("/generate_response")
 # async def generate_chat_response(chat: ChatModel):
