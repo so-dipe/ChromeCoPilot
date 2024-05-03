@@ -1,3 +1,4 @@
+import re
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part, Content
 
@@ -78,17 +79,16 @@ class GeminiModelClient:
     def generate_chat_title(self, prompt, response, history=[]):
         try:        
             system = """
-            Your job is to generate a title for the following chat, make sure it
-            is short and concise.
+            Give this conversation a short and catchy title.
             """
-            print(prompt, response)
             contents = [
                 Content(role="user", parts=[Part.from_text(prompt)]),
                 Content(role="model", parts=[Part.from_text(response)]),
                 Content(role="user", parts=[Part.from_text(system)])
             ]
             response = self.model.generate_content(contents, stream=False)
-            return response.text
+            cleaned_title = re.sub('^#+', '', response.text)
+            return cleaned_title
         except Exception as e:
             print("Error generating chat title:", e)
             return None

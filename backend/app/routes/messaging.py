@@ -24,7 +24,6 @@ async def get_response_stream(response):
 @router.post("/stream_response")
 async def stream_resp(chat: ChatModel, _: str = Depends(get_uid_and_token)):
     try:
-        print(chat.history)
         response = gemini.generate_response(chat.message, history=chat.history, stream=True)
         return StreamingResponse(get_response_stream(response))
     except Exception as e:
